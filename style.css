@@ -1,0 +1,49 @@
+body {
+	font-family: Arial, sans-serif;
+	background: rgb(16, 37, 58);
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.container {
+	background: white;
+	padding: 2em;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upload-area {
+	border: 2px dashed #ccc;
+	padding: 2em;
+	cursor: pointer;
+	margin-bottom: 1em;
+}
+
+.upload-area.hover {
+	border-color: #333;
+}
+
+button {
+	padding: 0.5em 1em;
+	font-size: 1em;
+	cursor: pointer;
+}
+
+.download-area {
+	margin-top: 1em;
+}
+
+.hidden {
+	display: none;
+}
+
+.error-message {
+	margin-top: 1em;
+	display: none;
+	color: red;
+	font-weight: bold;
+}

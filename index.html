@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <!-- pdf-lib -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <!-- myScript -->
+    <script type="module" src="script.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Processor</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>PDF Processor</h1>
+        <div id="upload-area" class="upload-area">
+            <p>Drag & drop your PDF here or click to select a file</p>
+            <input type="file" id="file-input" accept="application/pdf" hidden />
+        </div>
+        <button id="process-btn" disabled>Process PDF</button>
+        <div id="download-doc3-area" class="download-area hidden">
+            <a id="download-doc3-link" href="#" download="3. W-8BEN.pdf">Download "W-8BEN"</a>
+        </div>
+        <div id="download-doc1-area" class="download-area hidden">
+            <a id="download-doc1-link" href="#" download="1. International Schwab Account Application.pdf">Download
+                "International Schwab Account Application"</a>
+        </div>
+        <div id="error-message" class="error-message"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
