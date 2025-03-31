@@ -62,8 +62,8 @@ async function processPDF(file) {
         console.log('Extracted Data:', formDataInstance);
 
         // 2: Load the template PDFs using PDF-lib
-        const w8benTemplateUrl = '3. W-8BEN new.pdf';
-        const schwabTemplateUrl = '1. International Schwab Account Application.pdf';
+        const w8benTemplateUrl = '../assets/pdf/3. W-8BEN new.pdf';
+        const schwabTemplateUrl = '../assets/pdf/1. International Schwab Account Application.pdf';
 
         const [w8benBytes, schwabBytes] = await Promise.all([
             fetch(w8benTemplateUrl).then(res => res.arrayBuffer()),
