@@ -43,7 +43,6 @@ button {
 
 .error-message {
 	margin-top: 1em;
-	display: none;
 	color: red;
 	font-weight: bold;
 }

@@ -13,6 +13,7 @@ export class AccountHolder {
         this.homePhoneNumber = person.homePhoneNumber ?? null;
         this.homeAddress = person.homeAddress ?? null;
         this.city = person.city ?? null;
+        this.state = person.state ?? null;
         this.zipCode = person.zipCode ?? null;
         this.country = person.country ?? null;
         this.professionalSituation = person.professionalSituation ?? null;
@@ -26,7 +27,7 @@ export class AccountHolder {
 
 
 // FormData encapsulates all the data found in the PDF received from the Stratton form
-export class MyFormData {
+export class StrattonFormData {
     constructor(flatData) {
         this.accountType = flatData.accountType;
         this.debitCardOptions = flatData.debitCardOptions;
@@ -82,4 +83,3 @@ export class MyFormData {
         }
     }
 }
-
