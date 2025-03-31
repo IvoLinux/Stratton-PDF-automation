@@ -56,7 +56,7 @@ async function processPDF(file) {
     try {
         // 1: Extract and parse text data from the uploaded PDF
         const fullText = await extractTextFlattened(file);
-        const parsedData = parseJsonText(fullText)
+        const parsedData = parseJsonText(fullText);
         const formDataInstance = new StrattonFormData(parsedData);
         console.log('Extracted Data:', formDataInstance);
 
@@ -71,20 +71,25 @@ async function processPDF(file) {
 
         // 3: Access the form in the PDF
         const form = pdfDoc.getForm();
-        const notFoundText = ''
+        const notFoundText = '';
 
         var homeTelephoneField = form.getTextField('clients[0].Form[0].Section1[0].border[0].Hometelephonenumbe[0]');
         var nameField = form.getTextField('clients[0].Form[0].Section1[0].border[0].Nameofindividualw[0]');
         var addressField = form.getTextField('clients[0].Form[0].Section1[0].border[0].Permanentresidence[0]');
         var stateField = form.getTextField('clients[0].Form[0].Section1[0].border[0].Cityortownstate[0]');
         var countryField = form.getTextField('clients[0].Form[0].Section1[0].border[0].CountryDonotabbr[0]');
+        var usaTaxId = form.getTextField('clients[0].Form[0].Section1[0].border[0].USTaxpayerIdenti[0]');
+        var foreignTaxId = form.getTextField('clients[0].Form[0].Section1[0].border[0].Foreigntaxidentify[0]');
 
-        homeTelephoneField.setText(formDataInstance.accountHolder1.cellphone || notFoundText);
+        homeTelephoneField.setText(formDataInstance.accountHolder1.homePhoneNumber || notFoundText);
         nameField.setText(formDataInstance.accountHolder1.fullName || notFoundText);
-        addressField.setText(formDataInstance.accountHolder1.address || notFoundText);
+        addressField.setText(formDataInstance.accountHolder1.homeAddress || notFoundText);
         stateField.setText(formDataInstance.accountHolder1.city + ", " + formDataInstance.accountHolder1.state || notFoundText);
         countryField.setText(formDataInstance.accountHolder1.country || notFoundText);
-
+        if (formDataInstance.accountHolder1.taxIdType.includes("USA"))
+            usaTaxId.setText(formDataInstance.accountHolder1.taxId1 || formDataInstance.accountHolder1.taxId2 || formDataInstance.accountHolder1.taxId3);
+        else
+            foreignTaxId.setText(formDataInstance.accountHolder1.taxId1 || formDataInstance.accountHolder1.taxId2 || formDataInstance.accountHolder1.taxId3);
 
         const form1 = pdfDoc1.getForm();
 
@@ -96,7 +101,12 @@ async function processPDF(file) {
         var stateField = form1.getTextField('clients[0].Form[0].Section3start[0].border[0].AccountHolder[0].StateProvinceRegio[0]');
         var countryField = form1.getTextField('clients[0].Form[0].Section3start[0].border[0].AccountHolder[0].Country[0]');
         var cepField = form1.getTextField('clients[0].Form[0].Section3start[0].border[0].AccountHolder[0].ZipPostalCode[0]');
+        var homeTelephoneField = form1.getTextField('clients[0].Form[0].Section3start[0].border[0].AccountHolder[0].HomeTelephoneNumbe[0]');
         var cellphoneField = form1.getTextField('clients[0].Form[0].Section3start[0].border[0].AccountHolder[0].CellularTelephoneN[0]');
+
+        var employerNameField = form1.getTextField('clients[0].Form[0].Section3start[0].border[0].AccountHolder[0].EmploymentOccupation[0].Occupation[0].businessAddressDetails[0].employerName[0]');
+        var employerAddressField = form1.getTextField('clients[0].Form[0].Section3start[0].border[0].AccountHolder[0].EmploymentOccupation[0].Occupation[0].businessAddressDetails[0].businessStreet[0]');
+        var emailField = form1.getTextField('clients[0].Form[0].Section9start[0].border[0].Emailaddress[0]');
 
         const fullName = formDataInstance.accountHolder1.fullName;
         const firstSpaceIndex = fullName.indexOf(" ");
@@ -104,12 +114,17 @@ async function processPDF(file) {
         firstNameField.setText(fullName.substring(0, firstSpaceIndex));
         middleNameField.setText(fullName.substring(firstSpaceIndex + 1, lastSpaceIndex));
         lastNameField.setText(fullName.substring(lastSpaceIndex + 1));
-        addressField.setText(formDataInstance.accountHolder1.address);
-        cityField.setText(formDataInstance.accountHolder1.city);
-        stateField.setText(formDataInstance.accountHolder1.state);
-        countryField.setText(formDataInstance.accountHolder1.country);
-        cepField.setText(formDataInstance.accountHolder1.zipCode);
-        cellphoneField.setText(formDataInstance.accountHolder1.cellphoneNumber);
+        addressField.setText(formDataInstance.accountHolder1.homeAddress || notFoundText);
+        cityField.setText(formDataInstance.accountHolder1.city || notFoundText);
+        stateField.setText(formDataInstance.accountHolder1.state || notFoundText);
+        countryField.setText(formDataInstance.accountHolder1.country || notFoundText);
+        cepField.setText(formDataInstance.accountHolder1.zipCode || notFoundText);
+        homeTelephoneField.setText(formDataInstance.accountHolder1.homePhoneNumber || notFoundText);
+        cellphoneField.setText(formDataInstance.accountHolder1.cellphoneNumber || notFoundText);
+
+        employerNameField.setText(formDataInstance.accountHolder1.employerName)
+        employerAddressField.setText(formDataInstance.accountHolder1.employerAddress)
+        emailField.setText(formDataInstance.accountHolder1.email)
 
         // 4: Save the modified PDF and create a downloadable blob
         const modifiedPdfBytes = await pdfDoc.save();
